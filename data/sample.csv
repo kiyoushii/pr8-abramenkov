@@ -1,0 +1,24 @@
+# commands;expected   (команды через |, поля через /, даты ГГГГ-ММ-ДД)
+create/T1/Казань/2026-11-10/2026-11-14;OK:status=DRAFT
+create/T1/Казань/2026-11-10/2026-11-14|submit;OK:status=SUBMITTED
+create/T1/Казань/2026-11-10/2026-11-14|submit|approve;OK:status=APPROVED
+create/T1/Казань/2026-11-10/2026-11-14|submit|approve|complete/2026-11-15;OK:status=COMPLETED
+create/T1/Казань/2026-11-10/2026-11-14|submit|approve|complete/2026-11-14;ERROR:только после даты окончания
+create/T1/Казань/2026-11-10/2026-11-14|submit|reject/Нет бюджета на поездку;OK:status=REJECTED
+create/T1/Казань/2026-11-10/2026-11-14|submit|reject/1234567890;OK:status=REJECTED
+create/T1/Казань/2026-11-10/2026-11-14|submit|reject/123456789;ERROR:минимум 10 символов
+create/T1/Казань/2026-11-10/2026-11-14|submit|reject;ERROR:минимум 10 символов
+create/T1/Казань/2026-11-10/2026-11-14|approve;ERROR:DRAFT -> APPROVED
+create/T1/Казань/2026-11-10/2026-11-14|reject/Достаточно длинная причина;ERROR:DRAFT -> REJECTED
+create/T1/Казань/2026-11-10/2026-11-14|cancel;OK:status=CANCELLED
+create/T1/Казань/2026-11-10/2026-11-14|submit|cancel;OK:status=CANCELLED
+create/T1/Казань/2026-11-10/2026-11-14|submit|approve|cancel;OK:status=CANCELLED
+create/T1/Казань/2026-11-10/2026-11-14|submit|approve|complete/2026-11-20|cancel;ERROR:COMPLETED -> CANCELLED
+create/T1/Казань/2026-11-10/2026-11-14|cancel|submit;ERROR:CANCELLED -> SUBMITTED
+create/T1/Казань/2026-11-10/2026-11-14|submit|submit;ERROR:SUBMITTED -> SUBMITTED
+create/T1/Казань/2026-11-14/2026-11-10;ERROR:раньше даты начала
+create/T1/Казань/2026-11-10/2026-11-10|submit;OK:status=SUBMITTED
+create/T1//2026-11-10/2026-11-14;ERROR:пункт назначения
+create/T1/Казань/10.11.2026/2026-11-14;ERROR:формате ГГГГ-ММ-ДД
+create/T1/Казань//2026-11-14;ERROR:дата не задана
+submit;ERROR:сначала создайте заявку

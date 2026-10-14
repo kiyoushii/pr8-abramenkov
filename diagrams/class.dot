@@ -1,0 +1,14 @@
+digraph C {
+  graph [dpi=200, fontname="DejaVu Sans", rankdir=TB, nodesep=0.6, ranksep=0.7];
+  node [fontname="DejaVu Sans", fontsize=12, shape=record, style=filled, fillcolor="#f7fbff", color="#2f5496"];
+  edge [fontname="DejaVu Sans", fontsize=11, color="#555555"];
+  SC [label="{SelfCheck|- passed : int\l- failed : int\l|+ main(String[]) : void\l- unitChecks() : void\l- dataChecks(String) : void\l- interactive() : void\l}"];
+  S [label="{BusinessTripService|- trips : List\<BusinessTrip\>\l|+ create(String, Employee, String, LocalDate, LocalDate) : BusinessTrip\l+ findByStatus(TripStatus) : List\<BusinessTrip\>\l+ find(String) : BusinessTrip\l+ execute(BusinessTrip, String) : BusinessTrip\l~ parseDate(String) : LocalDate\l}"];
+  B [label="{BusinessTrip|+ MIN_REASON_LENGTH : int = 10 (вариант 1)\l- id : String\l- employee : Employee\l- destination : String\l- start : LocalDate\l- end : LocalDate\l- status : TripStatus\l- rejectionReason : String\l|+ submit() : void\l+ approve() : void\l+ reject(String) : void\l+ cancel() : void\l+ complete(LocalDate) : void\l- moveTo(TripStatus) : void\l- requireTransition(TripStatus) : void\l+ getStatus() : TripStatus\l}"];
+  E [label="{Employee|- id : String\l- fullName : String\l|+ Employee(String, String)\l+ getId() : String\l+ getFullName() : String\l}"];
+  T [label="{\<\<enumeration\>\>\nTripStatus|DRAFT\lSUBMITTED\lAPPROVED\lREJECTED\lCANCELLED\lCOMPLETED\l|+ canMoveTo(TripStatus) : boolean\l}"];
+  SC -> S [label="использует", style=dashed, arrowhead=open];
+  S -> B [label="0..*  хранит и создаёт", arrowhead=vee, arrowtail=diamond, dir=both];
+  B -> E [label="1", arrowhead=vee, arrowtail=odiamond, dir=both];
+  B -> T [label="status (1)", arrowhead=vee];
+}

@@ -1,0 +1,23 @@
+digraph G {
+  graph [dpi=200, fontname="DejaVu Sans", nodesep=0.5, ranksep=0.45, size="9,13"];
+  node [fontname="DejaVu Sans", fontsize=13, style="rounded,filled", shape=box, fillcolor="#eaf1f8", color="#2f5496"];
+  edge [fontname="DejaVu Sans", fontsize=11, color="#555555"];
+  start [label="Начало", shape=ellipse, fillcolor="#e2f0d9", color="#548235"];
+  in [label="Получить команду:\nsubmit / approve / reject / cancel / complete", shape=parallelogram, fillcolor="#e4e0ee", color="#7030a0"];
+  st [label="Определить текущий статус\n(BusinessTrip.getStatus)"];
+  a1 [label="A1: TripStatus.canMoveTo(целевой статус):\nпереход есть в таблице переходов?", fillcolor="#e2f0d9", color="#2e7d32"];
+  ok1 [label="Переход допустим?", shape=diamond, style="filled", fillcolor="#fff2cc", color="#bf9000"];
+  a2 [label="A2: Проверить данные операции:\nreject — причина ≥ 10 символов (после trim);\ncomplete — дата строго после даты окончания", fillcolor="#e2f0d9", color="#2e7d32"];
+  ok2 [label="Данные корректны?", shape=diamond, style="filled", fillcolor="#fff2cc", color="#bf9000"];
+  chg [label="Изменить состояние заявки:\nstatus = целевой статус\n(при reject — сохранить причину)"];
+  err [label="Бросить IllegalStateException (переход)\nили IllegalArgumentException (данные);\nобъект не изменяется"];
+  end [label="Завершение", shape=ellipse, fillcolor="#fce4d6", color="#c55a11"];
+  start -> in -> st -> a1 -> ok1;
+  ok1 -> a2 [label="да"];
+  ok1 -> err [label="нет"];
+  a2 -> ok2;
+  ok2 -> chg [label="да"];
+  ok2 -> err [label="нет"];
+  chg -> end;
+  err -> end;
+}
